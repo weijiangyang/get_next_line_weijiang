@@ -6,23 +6,21 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:11:06 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/22 11:57:38 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:07:24 by weiyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//extrait_line : pour extrait les characteres avant \n ou \0
 
 #include <stdlib.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
 
-#define	BUFFER_SIZE 1024
+#define BUFFER_SIZE 1024
 
-char *extract_line(char *str)
+char	*extract_line(char *str)
 {
-	int	i;
-	char*	extract;
+	int		i;
+	char	*extract;
 
 	i = 0;
 	if (!str)
@@ -43,13 +41,13 @@ char *extract_line(char *str)
 		extract[i] = '\n';
 		i++;
 	}
-	extract[i]= '\0';
+	extract[i] = '\0';
 	return (extract);
 }
 
-int     ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-	int     size;
+	int	size;
 
 	size = 0;
 	while (*str)
@@ -59,9 +57,8 @@ int     ft_strlen(char *str)
 	}
 	return (size);
 }
-	 	
 
-char	*ft_strjoin(char  *s1, char  *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ptr;
 	char	*dst;
@@ -105,102 +102,78 @@ char	*ft_strdup(char *s)
 	return (ptr);
 }
 
-int	end_line(char *str, int	size)
+int	end_line(char *str)
 {
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while ((str[i] != '\n' || str[i] != '\0') && i < size - 1)
-		i++;
-	if (str[i] == '\n' || str[i] == '\0')
-		return (1);
+	while (*str)
+	{
+		if (*str == '\n')
+			return (1);
+		str++;
+	}
 	return (0);
 }
-	
 
-char *get_next_line(int fd)
+
+char	*get_next_line(int fd)
 {
-    static char *stash = NULL;
-    char        *buffer;
-    char        *line;
-    char        *tmp;
-    ssize_t     bytes_read;
+	static char	*stash = NULL;
+	char		*buffer;
+	char		*line;
+	char		*tmp;
+	ssize_t		bytes_read;
 
-    if (fd < 0 || BUFFER_SIZE <= 0)
-        return NULL;
-
-    buffer = malloc(BUFFER_SIZE + 1);
-    if (!buffer)
-        return NULL;
-
-    bytes_read = 1;
-    while (bytes_read > 0 && (!stash || !end_line(stash, BUFFER_SIZE)))
-    {
-        bytes_read = read(fd, buffer, BUFFER_SIZE);
-        if (bytes_read == -1)
-        {
-            free(buffer);
-            return NULL;
-        }
-        buffer[bytes_read] = '\0';
-	// mettre buffer dans stash
-	if (!stash)
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
+	bytes_read = 1;
+	while (bytes_read > 0 && (!stash || !end_line(stash)))
 	{
-	    stash = ft_strdup(buffer);
-	    //liberer buffer
-	    free (buffer);
-	}
-	// mettre la union entre stash et buffer 
-	else
-	{
-    		tmp = stash;
-    		stash = ft_strjoin(stash, buffer);
-		// liberer stash
-   		free(tmp);
-		// liberer buffer
-		free (buffer);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read == -1)
+		{
+			free(buffer);
+			return (NULL);
+		}
+		buffer[bytes_read] = '\0';
+		tmp = stash;
+		if (!stash)
+			stash = ft_strdup(buffer);
+		else
+			stash = ft_strjoin(stash, buffer);
+		free(tmp);
 	}
 
-    }
-
-    if (!stash || stash[0] == '\0')
-    {
-	free (stash);
-	return NULL;
-     }
-
-    line = extract_line(stash);
-    tmp = stash;
-    stash = ft_strdup(stash + ft_strlen(line)); // remove extracted line from stash
-    free (tmp);
-    return line;
+	if (!stash || stash[0] == '\0')
+	{
+		free (stash);
+		stash = NULL;
+		return (NULL);
+	}
+	line = extract_line(stash);
+	tmp = stash;
+	stash = ft_strdup(stash + ft_strlen(line));
+	free (tmp);
+	return (line);
 }
 
-int main(void)
+
+int	main(void)
 {
-    int     fd;
-    char    *line;
-    char    *line2;
-    char	*result;
-    int		end;
-    fd = open("text.txt", O_RDONLY);
-    if (fd == -1)
-        return 1;
+	int		fd;
+	char	*line;
 
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        printf("%s", line);
-        free(line);
-    }
-    close(fd);
-   /* line = "hello world!\nwelcome to this club!";
-    line2 = "ok, this is ok";
-    end = end_line(line, 100);
-    result = ft_strdup(line2);
-    printf("%d", end);*/
-
-    return 0;
+	fd = open ("text.txt", O_RDONLY);
+	if (fd == -1)
+		return (1);
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+	return (0);
 }
-	
