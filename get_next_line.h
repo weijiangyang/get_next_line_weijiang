@@ -6,7 +6,7 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 09:27:06 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/24 15:43:11 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/24 16:33:14 by weiyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,12 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <stdio.h>
-
-# define BUFFER_SIZE 1024
 
 char	*extract_line(char *str);
 int		ft_strlen(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(char *s);
 int		end_line(char *str);
+char    *get_next_line(int fd);
 
 #endif

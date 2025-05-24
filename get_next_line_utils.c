@@ -6,7 +6,7 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:42:25 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/24 15:40:49 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/24 19:10:07 by weiyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,21 @@ char	*ft_strdup(char *s)
 {
 	char	*ptr;
 	char	*dst;
+	int		i;
 
+	i = 0;
+	if (!s)
+		return (NULL);
 	ptr = malloc ((ft_strlen(s) + 1) * sizeof(char));
 	if (!ptr)
 		return (NULL);
 	dst = ptr;
-	while (*s)
-		*dst++ = *s++;
-	*dst = '\0';
+	while (s[i])
+	{
+		dst[i] = s[i];
+		i++;
+	}
+	dst[i] = '\0';
 	return (ptr);
 }
 
@@ -55,27 +62,25 @@ char	*extract_line(char *str)
 {
 	int		i;
 	char	*extract;
+	int	j;
 
+	j = 0;
 	i = 0;
-	if (!str)
+	if (!str || str[0] == '\0')
 		return (NULL);
 	while (str[i] && str[i] != '\n')
 		i++;
-	extract = (char *) malloc ((i + 2) * sizeof (char));
+	if (str[i] == '\n')
+		i++;
+	extract = (char *) malloc ((i + 1) * sizeof (char));
 	if (!extract)
 		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != '\n')
+	while (j < i)
 	{
-		extract[i] = str[i];
-		i++;
+		extract[j] = str[j];
+		j++;
 	}
-	if (str[i] == '\n')
-	{
-		extract[i] = '\n';
-		i++;
-	}
-	extract[i] = '\0';
+	extract[j] = '\0';
 	return (extract);
 }
 

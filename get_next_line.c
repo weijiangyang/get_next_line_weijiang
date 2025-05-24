@@ -6,11 +6,11 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:11:06 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/24 15:48:52 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/24 19:31:18 by weiyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_utils.c"
+#include "get_next_line.h"
 
 static char	*read_and_stash(int fd, char *stash, char *buffer)
 {
@@ -23,16 +23,18 @@ static char	*read_and_stash(int fd, char *stash, char *buffer)
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 		{
-			free(buffer);
+			free (stash);
 			return (NULL);
 		}
 		buffer[bytes_read] = '\0';
-		tmp = stash;
 		if (!stash)
 			stash = ft_strdup(buffer);
 		else
+		{
+			tmp = stash;
 			stash = ft_strjoin(stash, buffer);
-		free (tmp);
+			free (tmp);
+		}
 	}
 	return (stash);
 }
@@ -43,6 +45,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*tmp;
 	char		*buffer;
+	char		*next;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -50,35 +53,27 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (NULL);
 	stash = read_and_stash(fd, stash, buffer);
+	free (buffer);
 	if (!stash || stash[0] == '\0')
 	{
-		free (stash);
+		if (stash)
+			free (stash);
 		stash = NULL;
 		return (NULL);
 	}
 	line = extract_line(stash);
+	if (!line)
+	{
+    		free(stash);
+    		stash = NULL;
+    		return NULL;
+	}
 	tmp = stash;
-	stash = ft_strdup(stash + ft_strlen(line));
+	next = tmp + ft_strlen(line);
+	if (*next == '\0' || !next)
+		stash = NULL;
+	else
+		stash = ft_strdup(next);
 	free (tmp);
 	return (line);
 }
-
-int     main(void)
-{
-        int             fd;
-        char    *line;
-
-        fd = open ("text.txt", O_RDONLY);
-        if (fd == -1) 
-                return (1);
-        line = get_next_line(fd);
-        while (line != NULL)
-        {
-                printf("%s", line);
-                free(line);
-                line = get_next_line(fd);
-        }
-        close(fd);
-        return (0);
-}
-
