@@ -6,7 +6,7 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:42:25 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/25 17:28:28 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/25 17:39:54 by weiyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	end_line(char *str)
 	return (0);
 }
 
-char	*ft_strdup(char *s) 
+char	*ft_strdup(char *s)
 {
 	char	*ptr;
 	char	*dst;
@@ -62,7 +62,7 @@ char	*extract_line(char *str)
 {
 	int		i;
 	char	*extract;
-	int	j;
+	int		j;
 
 	j = 0;
 	i = 0;
@@ -90,9 +90,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	char	*dst;
 
 	if (!s1)
-		s1 = ""; 
+		s1 = "";
 	if (!s2)
-		s2 = ""; 
+		s2 = "";
 	ptr = malloc ((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!ptr)
 		return (NULL);
