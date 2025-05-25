@@ -6,7 +6,7 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:11:06 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/25 14:00:19 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/25 17:34:47 by weiyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,34 @@ static char	*read_and_stash(int fd, char *stash, char *buffer)
 	return (stash);
 }
 
+char	*extract_and_update(char **stash)
+{
+	char	*tmp;
+	char	*line;
+	char	*next;
+
+	line = extract_line(*stash);
+	if (!line)
+	{
+		free (*stash);
+		*stash = NULL;
+		return (NULL);
+	}
+	tmp = *stash;
+	next = tmp + ft_strlen(line);
+	if (*next == '\0')
+		*stash = NULL;
+	else
+		*stash = ft_strdup(next);
+	free (tmp);
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*stash = NULL;
 	char		*line;
-	char		*tmp;
 	char		*buffer;
-	char		*next;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -61,20 +82,7 @@ char	*get_next_line(int fd)
 		stash = NULL;
 		return (NULL);
 	}
-	line = extract_line(stash);
-	if (!line)
-	{
-    		free(stash);
-    		stash = NULL;
-    		return NULL;
-	}
-	tmp = stash;
-	next = tmp + ft_strlen(line);
-	if (*next == '\0' || !next)
-		stash = NULL;
-	else
-		stash = ft_strdup(next);
-	free (tmp);
+	line = extract_and_update (&stash);
 	return (line);
 }
 
