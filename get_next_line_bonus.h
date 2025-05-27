@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 09:27:06 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/27 14:32:38 by weiyang          ###   ########.fr       */
+/*   Created: 2025/05/27 12:01:49 by weiyang           #+#    #+#             */
+/*   Updated: 2025/05/27 16:24:49 by weiyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+
+typedef struct s_fd_buffer
+{
+	int					fd;
+	char				*stash;
+	struct s_fd_buffer	*next;
+}	t_fd_buffer;
 
 char	*extract_line(char *str);
 int		ft_strlen(char *str);
