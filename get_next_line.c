@@ -6,7 +6,7 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:11:06 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/28 17:19:20 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:52:07 by weiyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ static char	*read_and_stash(int fd, char *stash, char *buffer)
 			free (stash);
 			return (NULL);
 		}
-		if (bytes_read > 0)
-			buffer[bytes_read] = '\0';
+		buffer[bytes_read] = '\0';
 		if (!stash)
 			stash = ft_strdup(buffer);
 		else
