@@ -6,7 +6,7 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:11:06 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/27 12:18:59 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/28 10:07:04 by weiyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*read_and_stash(int fd, char *stash, char *buffer)
 	while (bytes_read > 0 && (!stash || !end_line(stash)))
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read == -1)
+		if (bytes_read < 0)
 		{
 			free (stash);
 			return (NULL);

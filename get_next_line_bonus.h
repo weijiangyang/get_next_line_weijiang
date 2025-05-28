@@ -6,7 +6,7 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 12:01:49 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/27 16:24:49 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/28 09:42:04 by weiyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+
+# define OPEN_MAX	1024
 
 typedef struct s_fd_buffer
 {
