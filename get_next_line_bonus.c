@@ -6,7 +6,7 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:11:06 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/28 09:43:20 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:24:10 by weiyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,12 @@ char	*extract_and_update(char **stash)
 
 char	*get_next_line(int fd)
 {
+	// mettre stash dans un tableau lie fd avec stash , et initialise en 0
 	static char	*stash[OPEN_MAX] = {0};
 	char		*line;
 	char		*buffer;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = (char *)malloc (BUFFER_SIZE + 1);
 	if (!buffer)
