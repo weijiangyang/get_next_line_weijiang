@@ -6,7 +6,7 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:11:06 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/28 17:52:07 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/29 20:34:22 by weijiangyang     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 
 static char	*read_and_stash(int fd, char *stash, char *buffer)
 {
-	// pour read et reserve dans buf
 	ssize_t		bytes_read;
 	char		*tmp;
 
 	bytes_read = 1;
-	// le boucle se repeate quand bytes_read > 0 et le reserve est NULL ou le reserve ne contient pas \n
 	while (bytes_read > 0 && (!stash || !end_line(stash)))
 	{
-		// read dans le buffer
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		// si read est echoue, liberer stash , et retourne NULL
+		if (bytes_read == 0)
+			break;
 		if (bytes_read < 0)
 		{
 			free (stash);

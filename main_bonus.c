@@ -6,7 +6,7 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:09:31 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/29 11:11:13 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/29 21:27:56 by weijiangyang     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,18 @@ int main(int argc, char **argv)
 					printf ("%s", line);
 				else	
 				{
+					if (fd_list[i] > 0)
+						count++;
 					close (fd_list[i]);
 					fd_list[i] = -1;
-					count ++;
 				}
 				free (line);
 				i++;
 			}	
 		}
 	}
+	if (count == argc - 1)
+		return (0);
 	while ((line = get_next_line(0)) != NULL)
 	{
 		printf("%s", line);

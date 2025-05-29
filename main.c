@@ -6,7 +6,7 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:09:31 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/28 15:19:26 by weiyang          ###   ########.fr       */
+/*   Updated: 2025/05/29 21:28:26 by weijiangyang     ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,14 @@ int main(int argc, char **argv)
 			perror("Error opening file");
 			return 1;
 		}
-		while ((line = get_next_line (fd)) != NULL)
+		line = get_next_line(fd);
+		while (line)
 		{
 			printf ("%s", line);
 			free (line);
+			line = get_next_line(fd);
+			if (!line)
+				return (0);
 		}
 		close (fd);
 	}
