@@ -6,7 +6,7 @@
 /*   By: weiyang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:11:06 by weiyang           #+#    #+#             */
-/*   Updated: 2025/05/29 20:34:22 by weijiangyang     ###   ########.fr       */
+/*   Updated: 2025/05/30 10:08:09 by weiyang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,7 @@ char	*get_next_line(int fd)
 	}
 	// extraire ligne a afficher et update le stash
 	line = extract_and_update (&stash);
+	if (!line)
+		return (NULL);
 	return (line);
 }
